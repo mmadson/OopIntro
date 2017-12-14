@@ -18,8 +18,23 @@ class CreatingAndUsingObjects {
 
         // Q: What is Object Oriented Programming?
 
-        // An approach to designing software which models your application's data
-        // and the operations you can perform on that data using Objects.
+        // According to Alan Kay, who coined the term:
+        // OOP to me means only
+        // - messaging
+        // - (local retention and protection and hiding) of state-process
+        // - and extreme late-binding of all things
+
+        // According to Wikipedia:
+        // Object-oriented programming (OOP) is a programming paradigm
+        // based on the concept of "objects", which may contain data,
+        // in the form of fields, often known as attributes;
+        // and code, in the form of procedures, often known as methods.
+
+        // To Summarize:
+        // Object Oriented Programming is an approach to designing
+        // software that models your application's domain using
+        // encapsulated objects that communicate with one another
+        // via message passing
 
 
 
@@ -30,29 +45,8 @@ class CreatingAndUsingObjects {
 
 
 
-        // Q: What is an Object?
+        // Q: What is an Object (In Java)?
 
-
-
-
-
-
-
-
-
-
-
-        // Strings are objects
-
-        // They represent a sequence of characters
-        String aStringObject = new String("I'm a string and full of character!");
-
-        // You can do some cool things with them
-        aStringObject.indexOf('f'); // returns 17
-        aStringObject.contains("string"); // returns true
-
-        String stringObjectFromStringLiteral = "perhaps this is more familiar?";
-        stringObjectFromStringLiteral.indexOf('f'); // returns 21
 
 
 
@@ -67,9 +61,27 @@ class CreatingAndUsingObjects {
         Integer fortyTwo = new Integer(42);
         Integer fortyTwoFromIntegerLiteral = 42;
 
+
         // You can do some cool things with them
         fortyTwo.compareTo(fortyTwoFromIntegerLiteral); // returns 0, meaning equal
+        fortyTwoFromIntegerLiteral.toString(); // returns "42"
 
+
+
+
+
+
+        // Strings are objects
+
+        // They represent a sequence of characters
+        String aStringObject = new String("I'm a string and full of character!");
+
+        // You can do some cool things with them
+        aStringObject.indexOf('f');// returns 17
+        Boolean containsCharacter = aStringObject.contains("character"); // true
+
+        String stringObjectFromStringLiteral = "perhaps this is more familiar?";
+        stringObjectFromStringLiteral.indexOf('f'); // returns 21
 
 
 
@@ -92,7 +104,8 @@ class CreatingAndUsingObjects {
         );
 
         // You can do some cool things with them
-        shoppingList.size();
+        shoppingList.get(2); // get the String instance at index 2 of the List
+        shoppingList.size(); // returns 5
         shoppingList.removeIf(s -> s.contains("spam"));
 
 
@@ -113,8 +126,9 @@ class CreatingAndUsingObjects {
         );
 
         // You can do some cool things with them
-        uriToBookmarkName.getOrDefault(new URI("https://www.google.com"), "The Borg");
-        uriToBookmarkName.containsValue("Cat Videos");
+        uriToBookmarkName.get(new URI("http://www.matthewmadson.com"));
+        // returns "Shameless Self Promotion
+        uriToBookmarkName.containsValue("Cat Videos"); // returns true
 
 
 
@@ -124,8 +138,15 @@ class CreatingAndUsingObjects {
 
 
 
-        // So an Object is a data type, which has an internal representation
-        // and a set of operations related to its internal representation.
+        // An Object is a software component that has an encapsulated
+        // internal representation and methods for interacting with it.
+        // This is what Alan Kay was referring to when he said that OOP
+        // involved messaging and (local retention, protection and hiding)
+        // of state-process. In Java the messaging is performed using method
+        // calls on the object and the local retention, protection and hiding of
+        // state and process refer to the fact that the internal representation
+        // for these objects and how the methods are implemented is not exposed
+        // to us as users of the objects.
 
 
 
@@ -137,7 +158,8 @@ class CreatingAndUsingObjects {
 
 
 
-        // Why is it useful to think of our data and functions using Objects?
+
+        // Why is it useful to think of our data and procedures using Objects?
 
 
 
@@ -150,8 +172,8 @@ class CreatingAndUsingObjects {
 
 
         // Consider the alternative. Instead of using a String object to model
-        // a sequence of characters, let's work with an array of characters and
-        // see how we might structure our code.
+        // a sequence of characters, let's work with a primative (not an object)
+        // array of characters and see how we might structure our code.
 
         char[] rawString = new char[] {'u', 'g', 'h', '!'};
 
@@ -177,7 +199,7 @@ class CreatingAndUsingObjects {
 
         int slightlyBetter = indexOf(rawString, 'g');
         // P.S. This is typically how classical structured programming
-        // was done in the days of C and Assembly.
+        // was done in the days of C, Fortran and COBOL.
 
 
 
@@ -187,13 +209,16 @@ class CreatingAndUsingObjects {
 
 
         // But there are 2 problems with this approach.
-        // 1) How do we know where to find the indexOf function in a large codebase?
-        // 2) What if we came up with a faster indexOf method but it relied on the
-        // String being represented as a LinkedList of characters instead of
-        // a character array? Without using Objects we would need to
-        // do something like the following:
+        // 1) How do we know where to find the indexOf function in a large
+        // codebase?
+        // 2) What if we came up with a faster indexOf method but it
+        // relied on the String being represented as a
+        // LinkedList of characters instead of a character array?
+        // Without using Objects we would need to do something
+        // like the following:
 
-        int sad = fasterIndexOf(convertToLinkdList(rawString), 'g');
+        final LinkedList<Character> linkedList = convertToLinkedList(rawString);
+        int sad = fasterIndexOf(linkedList, 'g');
 
 
 
@@ -208,12 +233,13 @@ class CreatingAndUsingObjects {
         muchBetter.indexOf('g'); // could be slow in String v1, and fast in v2
 
         // The object oriented String class alleviates both of our problems.
-        // 1) It's easy to find the indexOf function, because it's a member of the
-        // String class, aka a method.
-        // 2) If a faster indexOf algorithm is discovered, our code doesn't need to
-        // change. The internal representation for a String can be modified without
-        // us knowing and the faster indexOf can be implemented without us having to
-        // change our call to indexOf.
+        // 1) It's easy to find the indexOf function, because
+        // it's a member of the String class, aka a method.
+        // 2) If a faster indexOf algorithm is discovered, our code doesn't
+        // need to change. The internal representation for a
+        // String can be modified without us knowing and the faster
+        // indexOf can be implemented without us having to change our
+        // call to indexOf.
 
 
 
@@ -223,10 +249,11 @@ class CreatingAndUsingObjects {
 
 
         // The capability of hiding an internal represention is called Encapsulation
-        // and the capability of the indexOf method using either a slow implementation
-        // or a fast implementation depending on the particular instance of String
-        // created is called polymorphism. Together, encapsulation and polymorphism
-        // make up the primary benefits of Object Oriented design.
+        // and the capability of the indexOf method using either a slow version
+        // or a fast version depending on the particular instance of a String
+        // is referred to as late binding of the function call. Together,
+        // encapsulation, late binding and message passing make up the primary
+        // benefits of Object Oriented design, just as Alan Kay asserted.
 
 
 
@@ -258,7 +285,7 @@ class CreatingAndUsingObjects {
 
 
 
-    private static LinkedList<Character> convertToLinkdList(final char[] rawString) {
+    private static LinkedList<Character> convertToLinkedList(final char[] rawString) {
         // for demo purposes only
         return new LinkedList<>();
     }

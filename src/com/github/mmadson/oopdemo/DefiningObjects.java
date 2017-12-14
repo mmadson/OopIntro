@@ -13,10 +13,9 @@ class DefiningObjects {
 
 
 
-        // Now that we know what an Object is (a data type with an
-        // internal representation and associated operations) how do we
-        // define our own Objects so that we can model our application's
-        // domain?
+        // Now that we know what an Object is (an encapsulated internal
+        // representation and associated operations) how do we
+        // define our own Objects so that we can model our application's domain?
 
 
 
@@ -76,18 +75,28 @@ class DefiningObjects {
 
 
 
+        // That was an example of encapsulation and message passing,
+        // but what about the other aspect of Object Oriented Programming --
+        // late binding? How do we take advantage of that?
 
 
 
-        // What was that about Polymorphism?
+        // One approach to leveraging late binding of function calls is to
+        // utilize Polymorphism via Inheritance:
+
+        // Polymorphism gives us late binding of function calls depending on the type
+        // of object that we have.
+
+        // Inheritance allows us to create a new class of object that inherits state and
+        // behavior from a parent class.
         class Ceo extends Employee {
 
-            Ceo(final String firstName, final String lastName) {
+            Ceo(String firstName, String lastName) {
                 super(firstName, lastName, null);
             }
 
             @Override
-            boolean makesMoreThan(final Employee other) {
+            boolean makesMoreThan(Employee other) {
                 return true;
             }
         }
@@ -100,10 +109,10 @@ class DefiningObjects {
         // A Ceo is still just an Employee
         Employee jeffBezosIsStillAnEmployee = jeffBezos;
 
-        jeffBezos.canAffordRentInSanDiego(); // false, nobody can afford rent in SD
-        jeffBezos.makesMoreThan(fredFlinstone); // true
-        jeffBezos.makesMoreThan(janeDoe); // true
-        System.out.println(jeffBezos.getFormattedName()); // Bezos, Jeff
+        jeffBezosIsStillAnEmployee.makesMoreThan(fredFlinstone); // true
+        jeffBezosIsStillAnEmployee.makesMoreThan(janeDoe); // true
+        jeffBezosIsStillAnEmployee.canAffordRentInSanDiego(); // false, nobody can afford rent in SD
+        System.out.println(jeffBezosIsStillAnEmployee.getFormattedName()); // Bezos, Jeff
 
 
         // This is an example of using inheritence to polymorphically,
@@ -114,89 +123,56 @@ class DefiningObjects {
 
 
 
-        // However, inheritence isn't the only way to enable polymorphism
-        // You can also use interfaces:
+        // However, inheritence isn't the only way to leverage late binding and
+        // some would say inheritance should almost always be avoided.
 
-        class MyString implements CanLookupIndexOfCharacter {
+        // So another way that you can leverage late binding is through interfaces:
+        class EmployeeV2 implements CanCheckIfRentIsAfforableInSd {
 
-            private String s;
+            private String firstName;
+            private String lastName;
+            private Long salary;
 
-            MyString(String s) {
-                 this.s = s;
+            EmployeeV2(String firstName, String lastName, Long salary) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.salary = salary;
             }
 
             @Override
-            public int indexOf(char c) {
-                return s.indexOf(c);
+            public Boolean canAffordRentInSd() {
+                return false;
             }
         }
 
-        class MyFasterString implements CanLookupIndexOfCharacter {
+        class CeoV2 implements CanCheckIfRentIsAfforableInSd {
 
-            private String s;
+            private String firstName;
+            private String lastName;
 
-            MyFasterString(String s) {
-                this.s = s;
+            CeoV2(String firstName, String lastName) {
+                this.firstName = firstName;
+                this.lastName = lastName;
             }
 
             @Override
-            public int indexOf(char c) {
-                // do something clever to lookup the index of c
-                // really fast
-                return 0;
+            public Boolean canAffordRentInSd() {
+                return true;
             }
         }
 
-        class MyListOfCharacters implements CanLookupIndexOfCharacter {
+        EmployeeV2 employee = new EmployeeV2("Jane", "Doe", 70_000L);
+        CeoV2 ceo = new CeoV2("Jeff", "Bezos");
 
-            private List<Character> listOfCharacters;
+        doTheCheck(employee);
+        doTheCheck(ceo);
 
-            MyListOfCharacters(List<Character> listOfCharacters) {
-                this.listOfCharacters = listOfCharacters;
-            }
-
-            @Override
-            public int indexOf(char c) {
-                return listOfCharacters.indexOf(c);
-            }
-        }
-
-
-        class IndexPrinter {
-
-            private final CanLookupIndexOfCharacter hasIndexedChars;
-            private final char charIndexToPrint;
-
-            // The IndexPrinter only cares that whatever you pass it
-            // has an indexOf method, it doesn't care what the actual
-            // type is.
-            IndexPrinter(CanLookupIndexOfCharacter hasIndexedChars,
-                char charIndexToPrint) {
-                this.hasIndexedChars = hasIndexedChars;
-                this.charIndexToPrint = charIndexToPrint;
-            }
-
-            void print() {
-                // When called, the indexOf method will polymorphically resolve
-                // to either MyString, MyFasterString or MyListOfCharacters
-                System.out.println(hasIndexedChars.indexOf(charIndexToPrint));
-            }
-        }
-
-
-        new IndexPrinter(new MyString("foo"), 'f').print();
-        new IndexPrinter(new MyListOfCharacters(List.of('f', 'o', 'o')), 'f').print();
-        new IndexPrinter(new MyFasterString("foo"), 'f').print();
     }
 
 
 
-
-
-
-
-    interface CanLookupIndexOfCharacter {
-        int indexOf(char c);
+    private static Boolean doTheCheck(CanCheckIfRentIsAfforableInSd canCheck) {
+        return canCheck.canAffordRentInSd();
     }
 
 
@@ -206,6 +182,7 @@ class DefiningObjects {
 
 
 
-
-
+    interface CanCheckIfRentIsAfforableInSd {
+        Boolean canAffordRentInSd();
+    }
 }
