@@ -1,7 +1,5 @@
 package com.github.mmadson.oopdemo;
 
-import java.util.List;
-
 class DefiningObjects {
 
     static void demo() {
@@ -15,7 +13,8 @@ class DefiningObjects {
 
         // Now that we know what an Object is (an encapsulated internal
         // representation and associated operations) how do we
-        // define our own Objects so that we can model our application's domain?
+        // define our own Objects so that we can model our application's
+        // domain?
 
 
 
@@ -40,7 +39,7 @@ class DefiningObjects {
                 this.yearlySalaryInCents = yearlySalaryInCents;
             }
 
-            // These are the Operations you can do with an employee
+            // These are the Operations you can perform with an Employee
             String getFormattedName() {
                 return lastName+", "+firstName;
             }
@@ -75,20 +74,35 @@ class DefiningObjects {
 
 
 
+
         // That was an example of encapsulation and message passing,
         // but what about the other aspect of Object Oriented Programming --
         // late binding? How do we take advantage of that?
 
 
 
+
+
+
+
+
+
+
         // One approach to leveraging late binding of function calls is to
-        // utilize Polymorphism via Inheritance:
+        // utilize Polymorphism via Inheritance. Polymorphism gives us
+        // late binding of function calls depending on the type
+        // of the runtime object.
 
-        // Polymorphism gives us late binding of function calls depending on the type
-        // of object that we have.
 
-        // Inheritance allows us to create a new class of object that inherits state and
-        // behavior from a parent class.
+
+
+
+
+
+
+
+        // Inheritance allows us to create a new class of object that
+        // inherits state and behavior from a parent class.
         class Ceo extends Employee {
 
             Ceo(String firstName, String lastName) {
@@ -104,16 +118,16 @@ class DefiningObjects {
 
 
 
+
         Ceo jeffBezos = new Ceo("Jeff", "Bezos");
 
         // A Ceo is still just an Employee
-        Employee jeffBezosIsStillAnEmployee = jeffBezos;
+        Employee stillAnEmployee = jeffBezos;
 
-        jeffBezosIsStillAnEmployee.makesMoreThan(fredFlinstone); // true
-        jeffBezosIsStillAnEmployee.makesMoreThan(janeDoe); // true
-        jeffBezosIsStillAnEmployee.canAffordRentInSanDiego(); // false, nobody can afford rent in SD
-        System.out.println(jeffBezosIsStillAnEmployee.getFormattedName()); // Bezos, Jeff
-
+        stillAnEmployee.makesMoreThan(fredFlinstone); // true
+        stillAnEmployee.makesMoreThan(janeDoe); // true
+        stillAnEmployee.canAffordRentInSanDiego(); // false, nobody can
+        System.out.println(stillAnEmployee.getFormattedName()); // Bezos, Jeff
 
         // This is an example of using inheritence to polymorphically,
         // override the makesMoreThan() method of the Employee class.
@@ -126,7 +140,8 @@ class DefiningObjects {
         // However, inheritence isn't the only way to leverage late binding and
         // some would say inheritance should almost always be avoided.
 
-        // So another way that you can leverage late binding is through interfaces:
+        // So another way that you can leverage late binding is through
+        // interfaces:
         class EmployeeV2 implements CanCheckIfRentIsAfforableInSd {
 
             private String firstName;
@@ -161,19 +176,50 @@ class DefiningObjects {
             }
         }
 
+
+
+
+
+
+
+
+
+
         EmployeeV2 employee = new EmployeeV2("Jane", "Doe", 70_000L);
         CeoV2 ceo = new CeoV2("Jeff", "Bezos");
 
-        doTheCheck(employee);
-        doTheCheck(ceo);
+        canAffordRent(employee); // false
+        canAffordRent(ceo); // true
+
+
+
+
+
+
+
+
 
     }
 
 
 
-    private static Boolean doTheCheck(CanCheckIfRentIsAfforableInSd canCheck) {
+
+
+
+
+
+
+
+
+
+
+    private static Boolean canAffordRent(CanCheckIfRentIsAfforableInSd canCheck) {
         return canCheck.canAffordRentInSd();
     }
+
+
+
+
 
 
 
@@ -185,4 +231,14 @@ class DefiningObjects {
     interface CanCheckIfRentIsAfforableInSd {
         Boolean canAffordRentInSd();
     }
+
+
+
+
+
+
+
+
+
+
 }

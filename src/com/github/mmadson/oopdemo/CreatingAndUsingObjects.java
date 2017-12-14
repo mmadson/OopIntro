@@ -16,7 +16,20 @@ class CreatingAndUsingObjects {
 
 
 
+
+
         // Q: What is Object Oriented Programming?
+
+
+
+
+
+
+
+
+
+
+
 
         // According to Alan Kay, who coined the term:
         // OOP to me means only
@@ -24,11 +37,27 @@ class CreatingAndUsingObjects {
         // - (local retention and protection and hiding) of state-process
         // - and extreme late-binding of all things
 
+
+
+
+
+
+
+
+
         // According to Wikipedia:
         // Object-oriented programming (OOP) is a programming paradigm
-        // based on the concept of "objects", which may contain data,
-        // in the form of fields, often known as attributes;
+        // based on the concept of "objects", which may contain
+        // data, in the form of fields, often known as attributes;
         // and code, in the form of procedures, often known as methods.
+
+
+
+
+
+
+
+
 
         // To Summarize:
         // Object Oriented Programming is an approach to designing
@@ -63,7 +92,7 @@ class CreatingAndUsingObjects {
 
 
         // You can do some cool things with them
-        fortyTwo.compareTo(fortyTwoFromIntegerLiteral); // returns 0, meaning equal
+        fortyTwo.compareTo(fortyTwoFromIntegerLiteral); // returns 0, i.e., equal
         fortyTwoFromIntegerLiteral.toString(); // returns "42"
 
 
@@ -139,14 +168,18 @@ class CreatingAndUsingObjects {
 
 
         // An Object is a software component that has an encapsulated
-        // internal representation and methods for interacting with it.
+        // internal representation (state) and encapsulated processes
+        // (behavior, code) that are invoked by some external message.
+
         // This is what Alan Kay was referring to when he said that OOP
         // involved messaging and (local retention, protection and hiding)
-        // of state-process. In Java the messaging is performed using method
-        // calls on the object and the local retention, protection and hiding of
-        // state and process refer to the fact that the internal representation
-        // for these objects and how the methods are implemented is not exposed
-        // to us as users of the objects.
+        // of state-process.
+
+        // In Java the messaging is performed using method calls on the
+        // object and the local retention, protection and hiding of
+        // state and process refer to the fact that the internal
+        // representation for these objects and how the methods are
+        // implemented is not exposed to us as users of the objects.
 
 
 
@@ -159,7 +192,8 @@ class CreatingAndUsingObjects {
 
 
 
-        // Why is it useful to think of our data and procedures using Objects?
+        // Why is it useful to think of our data and procedures
+        // in temrs of Objects?
 
 
 
@@ -198,7 +232,7 @@ class CreatingAndUsingObjects {
         // repetition:
 
         int slightlyBetter = indexOf(rawString, 'g');
-        // P.S. This is typically how classical structured programming
+        // NOTE: This is typically how classical structured programming
         // was done in the days of C, Fortran and COBOL.
 
 
@@ -248,12 +282,19 @@ class CreatingAndUsingObjects {
 
 
 
-        // The capability of hiding an internal represention is called Encapsulation
-        // and the capability of the indexOf method using either a slow version
+        // The capability of hiding an internal represention is called
+        // Encapsulation.
+
+        // The capability of the indexOf method using either a slow version
         // or a fast version depending on the particular instance of a String
-        // is referred to as late binding of the function call. Together,
-        // encapsulation, late binding and message passing make up the primary
-        // benefits of Object Oriented design, just as Alan Kay asserted.
+        // is referred to as late binding of the function call.
+
+        // The ability to invoke the indexOf method and send it an argument
+        // and receive a response is one approach to object messaging.
+
+        // Together, encapsulation, late binding and message passing
+        // make up the primary requirments and benefits of Object Oriented
+        // design, as defined by Alan Kay.
 
 
 
